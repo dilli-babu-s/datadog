@@ -1,11 +1,18 @@
 package com.datadog.demo.entities;
 
+import javax.persistence.*;
+
+@Entity
 public class Book {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column
     private String name;
 
+    @Column
     private String title;
 
     public Book() {

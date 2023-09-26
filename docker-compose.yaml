@@ -15,8 +15,10 @@ services:
       - DD_ENV=dev
       - DD_VERSION=1.0
       - DD_AGENT_HOST=datadog-agent
+      - spring.datasource.url=jdbc:mysql://mysqldb:3306/datadog?allowPublicKeyRetrieval=true
     depends_on:
       - datadog-agent
+      - mysqldb
 
   datadog-agent:
     container_name: datadog-agent
@@ -25,7 +27,7 @@ services:
     ports:
       - 8125:8125/udp
     environment:
-      - DD_API_KEY=<API_Key>
+      - DD_API_KEY=ba81b60bbafc240fae26834570162860
       - DD_SITE=datadoghq.com
       - DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true
       - DD_APM_ENABLED=true
@@ -35,3 +37,14 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /proc/:/host/proc/:ro
       - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
+
+  mysqldb:
+    image: "mysql:8.0"
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_DATABASE=datadog
+      - MYSQL_USER=datadog
+      - MYSQL_PASSWORD=Data12345
+      - MYSQL_ROOT_PASSWORD=Data12345r
